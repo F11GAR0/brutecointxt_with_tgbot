@@ -1,10 +1,14 @@
 # brutecointxt
 
 ## Table of contents
-* [Description](#description)
-* [Getting Started](#getting-started)
-* [Usage](#usage)
-* [Output](#output)
+- [brutecointxt](#brutecointxt)
+  - [Table of contents](#table-of-contents)
+  - [Description](#description)
+  - [Getting Started](#getting-started)
+    - [Quick start](#quick-start)
+    - [Docker](#docker)
+  - [Usage](#usage)
+  - [Output](#output)
 
 ## Description
 Simple script to brute force bitcoin wallets with text file filled with passphrases and print any keys with available balance. \
@@ -77,6 +81,20 @@ If u want to check **only compressed addresses** (it's going to be faster)
 ```
 python brutecointxt.py -n passphrases.txt > output.txt
 ```
+
+If u need to startup Telegram bot create file *config.py* with token string TG_BOT_TOKEN
+```
+TG_BOT_TOKEN = "your bot token"
+```
+
+Start telegram bot:
+```
+python tg_bot.py
+```
+
+Usage:
+- Send line password(passphrase) to check it
+- Send file .txt to check it
 
 ## Output
 Example output for default options
