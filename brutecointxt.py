@@ -53,17 +53,23 @@ def _check_passphrase(line_phrase, return_info_anyway = False):
         uncompressed_wif = bytes_to_wif(private_key.to_bytes(), compressed=False)
         uncompressed_key = Key(uncompressed_wif)
         balance += float(uncompressed_key.balance)
-        
-        if balance > 0.0 or return_info_anyway:
+        tx_private = len(private_key.get_transactions())
+        # tx_uncompressed = len(uncompressed_key.get_transactions())
 
+        if balance > 0.0 or return_info_anyway or tx_private > 0:
+            
+            if balance <= 0.0 and tx_private <= 0:
+                message_out += "<tg-spoiler>"
             message_out += "\nPassphrase: " + phrase + "\n"
             message_out += "Private key hex: " +  private_key_hex + "\n"
             message_out += "Private key wif: " +  private_key.to_wif() + "\n"
-            message_out += format_bold_italic_if_more_than_zero("Tx Compressed: " + len(private_key.get_transactions()) + "\n", len(private_key.get_transactions()))
-            message_out += format_bold_italic_if_more_than_zero("Tx Uncompressed: " + len(uncompressed_key.get_transactions()) + "\n", len(uncompressed_key.get_transactions()))
+            message_out += format_bold_italic_if_more_than_zero(f"Tx Compressed: {tx_private}\n", tx_private)
+            # message_out += format_bold_italic_if_more_than_zero(f"Tx Uncompressed: {tx_uncompressed}\n", tx_uncompressed)
             message_out += f"Compressed address: <a href='https://www.blockchain.com/ru/explorer/addresses/btc/{private_key.address}'>" + private_key.address + "</a>\n"
             message_out += f"Uncompressed address: <a href='https://www.blockchain.com/ru/explorer/addresses/btc/{uncompressed_key.address}'>" + uncompressed_key.address + "</a>\n"
             message_out += format_bold_italic_if_more_than_zero("<b>Balance: " + str(balance) + "</b>\n", balance)
+            if balance <= 0.0 and tx_private <= 0:
+                message_out += "</tg-spoiler>"
     
     return message_out
 
